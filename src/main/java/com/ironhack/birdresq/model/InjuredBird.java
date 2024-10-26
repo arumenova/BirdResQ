@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
 @NoArgsConstructor
@@ -27,6 +30,25 @@ public class InjuredBird {
     @Lob
     @Column(nullable = true)
     private byte [] uploadImage;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
+    @OneToOne
+    @JoinColumn(name="injured_bird_id")
+    private Report report;
+
+    @OneToOne
+    @JoinColumn(name="location_id")
+    private Location location;
+
+
+
+    @ManyToMany(mappedBy = "assignedBirds")
+    private Set<Volunteer>volunteers=new HashSet<>();
+
+
 
     public InjuredBird(String species, String injuryDescription, BirdStatus birdStatus, Boolean isProtected, byte[] uploadImage) {
         this.species = species;

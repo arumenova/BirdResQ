@@ -1,9 +1,6 @@
 package com.ironhack.birdresq.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +17,9 @@ public class Location {
     private Double latitude;
     private Double longitude;
     private String address;
+
+    @OneToOne(mappedBy = "location")
+    private InjuredBird injuredBird;
 
     public Location(Double latitude, Double longitude, String address) {
         this.latitude = latitude;

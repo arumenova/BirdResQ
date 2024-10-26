@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -22,8 +23,25 @@ public class Report {
     @Enumerated(EnumType.STRING)
     private ReportStatus reportStatus;
 
-    public Report(LocalDateTime reportDateTime, ReportStatus reportStatus) {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "injured_bird_id")
+    private InjuredBird injuredBird;
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
+
+
+
+    public Report(LocalDateTime reportDateTime, ReportStatus reportStatus, User user, InjuredBird injuredBird, Admin admin) {
         this.reportDateTime = reportDateTime;
         this.reportStatus = reportStatus;
+        this.user = user;
+        this.injuredBird = injuredBird;
+        this.admin = admin;
     }
 }
