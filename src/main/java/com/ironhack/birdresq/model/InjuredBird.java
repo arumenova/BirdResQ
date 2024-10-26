@@ -25,6 +25,7 @@ public class InjuredBird {
 
     @Enumerated(EnumType.STRING)
     private BirdStatus birdStatus;
+
     private Boolean isProtected;
 
     @Lob
@@ -35,9 +36,9 @@ public class InjuredBird {
     @JoinColumn(name="user_id")
     private User user;
 
-    @OneToOne
+    @OneToMany
     @JoinColumn(name="injured_bird_id")
-    private Report report;
+    private Set<Report> reports = new HashSet<>();
 
     @OneToOne
     @JoinColumn(name="location_id")

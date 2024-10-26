@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -23,10 +25,15 @@ public abstract class User {
     private String phoneNumber;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List <Report> reports=new ArrayList<>();
+    private List<Report> reports = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List <InjuredBird> injuredBirds=new ArrayList<>();
+    private List<InjuredBird> injuredBirds = new ArrayList<>();
+
+    // Relationship between user and reports to be able to track a certain
+//    report by a certain user
+    @OneToMany(mappedBy = "userReport", cascade = CascadeType.ALL)
+    private Set<Report> userReports = new HashSet<>();
 
     public User(String name, String email, String phoneNumber) {
         this.name = name;

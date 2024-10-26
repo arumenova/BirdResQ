@@ -27,7 +27,7 @@ public class Report {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "injured_bird_id")
     private InjuredBird injuredBird;
 
@@ -35,6 +35,11 @@ public class Report {
     @JoinColumn(name = "admin_id")
     private Admin admin;
 
+    // Relationship between user and reports to be able to track a certain
+//    report by a certain user
+    @ManyToOne
+    @JoinColumn(name = "user_report_id")
+    private User userReport;
 
 
     public Report(LocalDateTime reportDateTime, ReportStatus reportStatus, User user, InjuredBird injuredBird, Admin admin) {
