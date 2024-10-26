@@ -8,8 +8,10 @@ import java.util.List;
 
 public interface InjuredBirdRepository extends JpaRepository<InjuredBird, Long> {
 
-//    Optional<InjuredBird> findById(Long id);
-//
+    List<InjuredBird> findAllById(Long id);
+
+    List<InjuredBird> findBySpecies(String species);
+
     List<InjuredBird> findByBirdStatus(BirdStatus status);
 
     List<InjuredBird> findByIsProtected(Boolean isProtected);
