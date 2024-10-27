@@ -12,8 +12,6 @@ import java.util.Set;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByUserReports (Set<Report> userReports);
-
-    List<User> findByEmail (String email);
+    List<User> findByEmailIgnoreCase (String email);
 
 }

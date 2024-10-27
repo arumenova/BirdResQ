@@ -30,10 +30,7 @@ public abstract class User {
     @OneToMany(mappedBy = "user")
     private List<InjuredBird> injuredBirds = new ArrayList<>();
 
-    // Relationship between user and reports to be able to track a certain
-//    report by a certain user
-    @OneToMany(mappedBy = "userReport", cascade = CascadeType.ALL)
-    private Set<Report> userReports = new HashSet<>();
+
 
     public User(String name, String email, String phoneNumber) {
         this.name = name;
