@@ -14,16 +14,14 @@ import java.util.Set;
 @Data
 public class Admin extends User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
     private String password;
 
-    @OneToMany(mappedBy = "admin")
+    @OneToMany(mappedBy = "admin",cascade = CascadeType.ALL)
     private Set<Report>adminReports=new HashSet<Report>();
 
-    @OneToMany(mappedBy = "admin")
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
     private Set<Volunteer>volunteers=new HashSet<Volunteer>();
 
     public Admin(String name, String email, String phoneNumber, String password) {

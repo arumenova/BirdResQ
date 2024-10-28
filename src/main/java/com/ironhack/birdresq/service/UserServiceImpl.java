@@ -6,6 +6,8 @@ import com.ironhack.birdresq.model.User;
 import com.ironhack.birdresq.repository.InjuredBirdRepository;
 import com.ironhack.birdresq.repository.ReportRepository;
 import com.ironhack.birdresq.repository.UserRepository;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,13 +17,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private ReportRepository reportRepository;
+    private final ReportRepository reportRepository;
 
-    private InjuredBirdRepository injuredBirdRepository;
+    private final InjuredBirdRepository injuredBirdRepository;
 
     @Override
     public User createUser(User user) {

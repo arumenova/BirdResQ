@@ -13,9 +13,7 @@ import java.util.Set;
 @Data
 public class Volunteer extends User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
     private String password;
     private Boolean availability;
