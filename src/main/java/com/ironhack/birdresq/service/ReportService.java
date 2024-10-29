@@ -1,5 +1,6 @@
 package com.ironhack.birdresq.service;
 
+import com.ironhack.birdresq.dto.PublicReportDto;
 import com.ironhack.birdresq.dto.ReportDto;
 import com.ironhack.birdresq.enums.ReportStatus;
 import com.ironhack.birdresq.model.Report;
@@ -18,7 +19,7 @@ public interface ReportService {
 // This method is allowed only for admin
     List<Report> getAllReports();
 
-    List<Report>getPublicReports();
+    List<PublicReportDto>getPublicReports();
 
     void updateReportStatus(UUID id, String newStatus);
 

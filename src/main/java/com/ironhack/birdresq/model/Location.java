@@ -18,7 +18,7 @@ public class Location {
     private Double latitude;
     private Double longitude;
 
-    @NotBlank(message = "The address is required")
+
     private String address;
 
     @OneToOne(mappedBy = "location")

@@ -19,16 +19,7 @@ public class InjuredBird {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
-    @Column(nullable = true)
-    private byte[] uploadImage;
-
-    @NotBlank(message = "Species is required")
     private String species;
-
-    @NotBlank(message = "Injury description is required")
-    @Column(length = 500)
-    private String injuryDescription;
 
     @Enumerated(EnumType.STRING)
     private BirdStatus birdStatus;
@@ -52,12 +43,13 @@ public class InjuredBird {
     @ManyToMany(mappedBy = "assignedBirds")
     private Set<Volunteer> volunteers = new HashSet<>();
 
-
-    public InjuredBird(String species, String injuryDescription, BirdStatus birdStatus, Boolean isProtected, byte[] uploadImage) {
+    public InjuredBird(String species, BirdStatus birdStatus, Boolean isProtected, User user, Set<Report> reports, Location location, Set<Volunteer> volunteers) {
         this.species = species;
-        this.injuryDescription = injuryDescription;
         this.birdStatus = birdStatus;
         this.isProtected = isProtected;
-        this.uploadImage = uploadImage;
+        this.user = user;
+        this.reports = reports;
+        this.location = location;
+        this.volunteers = volunteers;
     }
 }
