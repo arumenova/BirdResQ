@@ -1,6 +1,7 @@
 package com.ironhack.birdresq.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,8 @@ public class Location {
 
     private Double latitude;
     private Double longitude;
+
+    @NotBlank(message = "The address is required")
     private String address;
 
     @OneToOne(mappedBy = "location")
