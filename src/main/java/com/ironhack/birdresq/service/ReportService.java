@@ -19,7 +19,6 @@ public interface ReportService {
 // This method is allowed only for admin
     List<Report> getAllReports();
 
-    List<PublicReportDto>getPublicReports();
 
     void updateReportStatus(UUID id, String newStatus);
 

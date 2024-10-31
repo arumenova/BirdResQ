@@ -5,6 +5,7 @@ import com.ironhack.birdresq.dto.ReportDto;
 import com.ironhack.birdresq.enums.ReportStatus;
 import com.ironhack.birdresq.model.Report;
 import com.ironhack.birdresq.service.ReportService;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,9 @@ public class ReportController {
 
     private final ReportService reportService;
 
-    @PostMapping("/createReport")
+    @PostMapping("/reports")
     @ResponseStatus(HttpStatus.CREATED)
-    public UUID createReport(@RequestBody ReportDto reportDto) {
+    public UUID createReport(@RequestBody @Valid ReportDto reportDto) {
         Report newReport = reportService.createReport(reportDto);
         return newReport.getId();
     }
@@ -47,11 +48,6 @@ public class ReportController {
         return reportService.getAllReports();
     }
 
-    @GetMapping("/public")
-    @ResponseStatus(HttpStatus.OK)
-    public List<PublicReportDto> getAllPublicReports() {
-        return reportService.getPublicReports();
-    }
 
     @PutMapping("/{id}/status")
     @ResponseStatus(HttpStatus.NO_CONTENT)

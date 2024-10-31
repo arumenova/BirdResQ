@@ -2,16 +2,22 @@ package com.ironhack.birdresq.model;
 
 import com.ironhack.birdresq.enums.ReportStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class Report {
 
@@ -23,6 +29,7 @@ public class Report {
     private String name;
 
     @NotBlank(message = "Email is required")
+    @Email(message = "Email should be valid")
     private String email;
 
     @NotBlank(message = "Phone Number is required")
@@ -39,46 +46,30 @@ public class Report {
     @Column(length = 500)
     private String injuryDescription;
 
-    private Double latitude;
-    private Double longitude;
 
     @NotBlank(message = "The address is required")
     private String address;
 
-    private LocalDateTime reportDateTime;
-
     @Enumerated(EnumType.STRING)
     private ReportStatus reportStatus;
+
+    private LocalDateTime reportDateTime;
+
+
+    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)  // Correct mapping to PublicReport
+    private List<PublicReport> publicReports;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "injured_bird_id")
-    private InjuredBird injuredBird;
-
     @ManyToOne
     @JoinColumn(name = "admin_id")
     private Admin admin;
 
+//
+//    @ManyToMany(mappedBy = "reports")
+//    private Set<Volunteer> volunteers = new HashSet<>();
 
-    public Report(String name, String email, String phoneNumber, byte[] uploadImage, String species,
-                  String injuryDescription, Double latitude, Double longitude, String address,
-                  LocalDateTime reportDateTime, ReportStatus reportStatus, User user, InjuredBird injuredBird, Admin admin) {
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.uploadImage = uploadImage;
-        this.species = species;
-        this.injuryDescription = injuryDescription;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.address = address;
-        this.reportDateTime = reportDateTime;
-        this.reportStatus = reportStatus;
-        this.user = user;
-        this.injuredBird = injuredBird;
-        this.admin = admin;
-    }
+
 }

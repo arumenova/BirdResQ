@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,14 +27,12 @@ public class ReportServiceImpl implements ReportService {
         report.setId(UUID.randomUUID());
         report.setName(reportDto.getName());
         report.setEmail(reportDto.getEmail());
-        report.setPhoneNumber(reportDto.getPhone());
+        report.setPhoneNumber(reportDto.getPhoneNumber());
         report.setUploadImage(reportDto.getUploadImage());
         report.setSpecies(reportDto.getSpecies());
         report.setInjuryDescription(reportDto.getInjuryDescription());
-        report.setLatitude(reportDto.getLatitude());
-        report.setLongitude(reportDto.getLongitude());
         report.setAddress(reportDto.getAddress());
-        report.setReportDateTime(reportDto.getReportDateTime());
+        report.setReportDateTime(reportDto.getReportDateTime() != null ? reportDto.getReportDateTime() : LocalDateTime.now());
 
         return reportRepository.save(report);
     }
@@ -43,12 +42,10 @@ public class ReportServiceImpl implements ReportService {
         Report updatedReport = reportRepository.findById(reportDto.getId()).orElse(null);
         updatedReport.setName(reportDto.getName());
         updatedReport.setEmail(reportDto.getEmail());
-        updatedReport.setPhoneNumber(reportDto.getPhone());
+        updatedReport.setPhoneNumber(reportDto.getPhoneNumber());
         updatedReport.setUploadImage(reportDto.getUploadImage());
         updatedReport.setSpecies(reportDto.getSpecies());
         updatedReport.setInjuryDescription(reportDto.getInjuryDescription());
-        updatedReport.setLatitude(reportDto.getLatitude());
-        updatedReport.setLongitude(reportDto.getLongitude());
         updatedReport.setAddress(reportDto.getAddress());
         updatedReport.setReportDateTime(reportDto.getReportDateTime());
         return reportRepository.save(updatedReport);
@@ -67,18 +64,7 @@ public class ReportServiceImpl implements ReportService {
         return reportRepository.findAll();
     }
 
-    @Override
-    public List<PublicReportDto> getPublicReports() {
-        List<Report> reports = reportRepository.findAll();
-        return reports.stream().map(report -> new PublicReportDto(
-                report.getId(),
-                report.getInjuredBird().getSpecies(),
-                report.getInjuryDescription(),
-                report.getReportStatus(),
-                report.getReportDateTime()
-        )).collect(Collectors.toList());
 
-    }
 // The method checks first whether report is present,
 //    if the report is present admin will  be able to update reportStatus
     // then I needed to convert newStatus from String to enum Status
