@@ -6,8 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -36,6 +38,5 @@ public abstract class User {
     private List<Report> userReports = new ArrayList<>();
 
 
-
-
+    public abstract Collection<? extends GrantedAuthority> getAuthorities();
 }

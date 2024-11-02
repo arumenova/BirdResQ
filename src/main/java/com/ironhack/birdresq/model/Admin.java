@@ -5,10 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -22,6 +22,11 @@ public class Admin extends User {
 
     @NotBlank(message = "Password is required")
     private String password;
+
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+    }
 
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
     private Set<Report> adminReports = new HashSet<Report>();

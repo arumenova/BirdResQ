@@ -18,12 +18,13 @@ import java.util.Optional;
 public class VolunteerController {
 
     private final VolunteerService volunteerService;
-
     @PostMapping("/create-account")
     @ResponseStatus(HttpStatus.CREATED)
-    public Volunteer createVolunteerAccount(@Valid @RequestBody VolunteerDto volunteerDto) {
-        return volunteerService.createVolunteerAccount(volunteerDto);
+    public ResponseEntity<Volunteer> createVolunteerAccount(@Valid @RequestBody VolunteerDto volunteerDto) {
+        Volunteer createdVolunteer = volunteerService.createVolunteerAccount(volunteerDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdVolunteer);
     }
+
     @PutMapping("/{email}")
     public ResponseEntity<String> updateVolunteer(
             @Valid @PathVariable String email,

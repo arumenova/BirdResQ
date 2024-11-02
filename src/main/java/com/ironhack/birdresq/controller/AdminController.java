@@ -21,8 +21,9 @@ public class AdminController {
 
     @PostMapping("/create-account")
     @ResponseStatus(HttpStatus.CREATED)
-    public Admin createAdminAccount(@Valid @RequestBody AdminDto adminDto) {
-        return adminService.createAdminAccount(adminDto);
+    public ResponseEntity<Admin> createAdminAccount(@Valid @RequestBody AdminDto adminDto) {
+        Admin createdAdmin = adminService.createAdminAccount(adminDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdAdmin);
     }
     @PutMapping("/{email}")
     public ResponseEntity<String> updateAdmin(@Valid @PathVariable String email, @RequestBody Admin updatedAdmin) {

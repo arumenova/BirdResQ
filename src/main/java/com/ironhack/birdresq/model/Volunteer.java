@@ -1,24 +1,20 @@
 package com.ironhack.birdresq.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Volunteer extends User {
-
+public class Volunteer extends User { // Ensure User is your own class implementing UserDetails or similar
 
     @NotBlank(message = "Username is required")
     private String username;
@@ -28,11 +24,9 @@ public class Volunteer extends User {
 
     private Boolean isAvailable;
 
-
     @ManyToOne
     @JoinColumn(name = "admin_id")
     private Admin admin;
-
 
     @ManyToMany
     @JoinTable(
@@ -42,6 +36,9 @@ public class Volunteer extends User {
     )
     private List<Report> volunteeredReports = new ArrayList<>();
 
-
+    // Method to get authorities
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_VOLUNTEER"));
+    }
 }
-

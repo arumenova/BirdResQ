@@ -15,4 +15,6 @@ public interface VolunteerRepository extends JpaRepository<Volunteer, Long> {
     List<Volunteer> findByNameIgnoreCase(String name);
     List<Volunteer> findByIsAvailable(Boolean isAvailable);
     Optional<Volunteer> findByEmailIgnoreCase(String email);
+
+    Volunteer findByUsername(String username);
 }
