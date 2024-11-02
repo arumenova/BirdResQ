@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReportDto {
 
-    private UUID id;
+    private UUID reportId;
 
     @NotBlank(message = "Name is required")
     private String name;

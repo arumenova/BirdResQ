@@ -24,18 +24,18 @@ public class PublicReportController {
         return ResponseEntity.ok(publicReports);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PublicReportDto> getPublicReportById(@PathVariable UUID id) {
-        PublicReportDto publicReport = publicReportService.getPublicReportById(id);
+    @GetMapping("/{reportId}")
+    public ResponseEntity<PublicReportDto> getPublicReportById(@PathVariable UUID reportId) {
+        PublicReportDto publicReport = publicReportService.getPublicReportById(reportId);
         return ResponseEntity.ok(publicReport);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{reportId}")
     public ResponseEntity<Void> updateBirdStatusAndProtection(
-            @PathVariable UUID id,
+            @PathVariable UUID reportId,
             @RequestParam BirdStatus birdStatus,
             @RequestParam Boolean isProtected) {
-        publicReportService.updateBirdStatusAndProtection(id, birdStatus, isProtected);
+        publicReportService.updateBirdStatusAndProtection(reportId, birdStatus, isProtected);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

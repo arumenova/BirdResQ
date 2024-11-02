@@ -21,7 +21,7 @@ public class Report {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private UUID reportId;
 
     @NotBlank(message = "Name is required")
     private String name;

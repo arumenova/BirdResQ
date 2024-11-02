@@ -47,7 +47,7 @@ public class PublicReportServiceImpl implements PublicReportService {
 
     private PublicReportDto mapToPublicReportDto(Report report) {
         return new PublicReportDto(
-                report.getId(),
+                report.getReportId(),
                 report.getSpecies(),
                 report.getInjuryDescription(),
                 report.getReportStatus(),

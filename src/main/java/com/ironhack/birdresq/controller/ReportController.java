@@ -1,13 +1,13 @@
 package com.ironhack.birdresq.controller;
 
-import com.ironhack.birdresq.dto.PublicReportDto;
+
 import com.ironhack.birdresq.dto.ReportDto;
-import com.ironhack.birdresq.enums.ReportStatus;
+import com.ironhack.birdresq.enums.BirdStatus;
+
 import com.ironhack.birdresq.model.Report;
 import com.ironhack.birdresq.service.ReportService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
-import lombok.Getter;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,20 +26,20 @@ public class ReportController {
     @ResponseStatus(HttpStatus.CREATED)
     public UUID createReport(@RequestBody @Valid ReportDto reportDto) {
         Report newReport = reportService.createReport(reportDto);
-        return newReport.getId();
+        return newReport.getReportId();
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/{reportId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateReport (@PathVariable UUID id, @RequestBody ReportDto reportDto) {
-        reportDto.setId(id);
+    public void updateReport (@PathVariable UUID reportId, @RequestBody ReportDto reportDto) {
+        reportDto.setReportId(reportId);
         reportService.updateReport(reportDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{reportId}")
     @ResponseStatus(HttpStatus.OK)
-    public Report getReport(@PathVariable UUID id) {
-        return reportService.getReportById(id);
+    public Report getReport(@PathVariable UUID reportId) {
+        return reportService.getReportById(reportId);
     }
 
     @GetMapping("/admin")
@@ -49,9 +49,17 @@ public class ReportController {
     }
 
 
-    @PutMapping("/{id}/status")
+    @PutMapping("/{reportId}/status")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateReportStatus(@PathVariable UUID id, @RequestParam String reportStatus) {
-        reportService.updateReportStatus(id, reportStatus);
+    public void updateReportStatus(@PathVariable UUID reportId, @RequestParam String reportStatus, @RequestParam Long id) {
+        reportService.updateReportStatus(reportId, reportStatus, id);
+    }
+    @PutMapping("{reportId}/bird-status")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateBirdStatus(
+            @PathVariable UUID reportId,
+            @RequestParam BirdStatus birdStatus,
+            @RequestParam Long id) {
+        reportService.volunteerUpdateBirdStatus(reportId, birdStatus,id);
     }
 }

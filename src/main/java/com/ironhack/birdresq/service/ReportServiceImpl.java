@@ -1,12 +1,14 @@
 package com.ironhack.birdresq.service;
 
-import com.ironhack.birdresq.dto.PublicReportDto;
 import com.ironhack.birdresq.dto.ReportDto;
 import com.ironhack.birdresq.enums.BirdStatus;
 import com.ironhack.birdresq.enums.ReportStatus;
 import com.ironhack.birdresq.model.Report;
+import com.ironhack.birdresq.model.Volunteer;
 import com.ironhack.birdresq.repository.ReportRepository;
+import com.ironhack.birdresq.repository.VolunteerRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,10 +23,12 @@ public class ReportServiceImpl implements ReportService {
 
     private final ReportRepository reportRepository;
 
+    private final VolunteerRepository volunteerRepository;
+
     @Override
     public Report createReport(ReportDto reportDto) {
         Report report = new Report();
-        report.setId(UUID.randomUUID());
+        report.setReportId(UUID.randomUUID());
         report.setName(reportDto.getName());
         report.setEmail(reportDto.getEmail());
         report.setPhoneNumber(reportDto.getPhoneNumber());
@@ -39,8 +42,8 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Report updateReport(ReportDto reportDto) {
-        Report updatedReport = reportRepository.findById(reportDto.getId()).orElse(null);
+    public void updateReport(ReportDto reportDto) {
+        Report updatedReport = reportRepository.findById(reportDto.getReportId()).orElse(null);
         updatedReport.setName(reportDto.getName());
         updatedReport.setEmail(reportDto.getEmail());
         updatedReport.setPhoneNumber(reportDto.getPhoneNumber());
@@ -49,7 +52,7 @@ public class ReportServiceImpl implements ReportService {
         updatedReport.setInjuryDescription(reportDto.getInjuryDescription());
         updatedReport.setAddress(reportDto.getAddress());
         updatedReport.setReportDateTime(reportDto.getReportDateTime());
-        return reportRepository.save(updatedReport);
+        reportRepository.save(updatedReport);
 
     }
 
@@ -70,8 +73,8 @@ public class ReportServiceImpl implements ReportService {
 //    if the report is present admin will  be able to update reportStatus
     // then I needed to convert newStatus from String to enum Status
     @Override
-    public void updateReportStatus(UUID id, String newStatus) {
-        Optional<Report> report = reportRepository.findById(id);
+    public void updateReportStatus(UUID reportId, String newStatus,Long id) {
+        Optional<Report> report = reportRepository.findById(reportId);
 
         if (report.isPresent()) {
             Report updatedReportStatus = report.get();
@@ -84,19 +87,45 @@ public class ReportServiceImpl implements ReportService {
                 throw new IllegalArgumentException("Invalid report status" + newStatus);
             }
         } else {
-            throw new EntityNotFoundException("Report with Id " + id + " not found");
+            throw new EntityNotFoundException("Report with Id " + reportId + " not found");
         }
     }
 
     @Override
-    public void updateBirdStatus(UUID id, String newStatus) {
-        Report report = reportRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Report not found with id: " + id));
+    @Transactional
+    public void volunteerUpdateBirdStatus(UUID reportId, BirdStatus newStatus, Long id) {
 
-        report.setBirdStatus(BirdStatus.valueOf(newStatus));
+        Report report = reportRepository.findById(reportId)
+                .orElseThrow(() -> new IllegalArgumentException("Report not found with id: " + reportId));
+
+        Volunteer volunteer = volunteerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Volunteer not found with id: " + id));
+
+        if (!report.getVolunteers().contains(volunteer)) {
+            throw new IllegalArgumentException("Volunteer is not associated with this report.");
+        }
+
+        report.setBirdStatus(newStatus);
         reportRepository.save(report);
     }
+
+    @Override
+    public void assignVoluneerToReport(UUID reportId, Long id) {
+        Optional<Report> reportOptional = reportRepository.findById(reportId);
+        Optional<Volunteer> volunteerOptional = volunteerRepository.findById(id);
+
+        if (reportOptional.isPresent() && volunteerOptional.isPresent()) {
+            Report report = reportOptional.get();
+            Volunteer volunteer = volunteerOptional.get();
+            report.getVolunteers().add(volunteer);
+            reportRepository.save(report);
+        } else {
+            throw new EntityNotFoundException("Report or Volunteer not found");
+        }
     }
+}
+
+
 
 
 
