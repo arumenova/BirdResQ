@@ -11,7 +11,6 @@ public interface ReportService {
 
     Report createReport(ReportDto reportDto);
 
-
     Report getReportById(UUID id);
 
     // This method is allowed only for admin
@@ -24,6 +23,10 @@ public interface ReportService {
 
     void volunteerUpdateBirdStatus(UUID reportId, BirdStatus newStatus, Long id);
 
-    void assignVoluneerToReport(UUID reportId, Long id);
+    void assignVolunteerToReport(UUID reportId, Long id);
+
+    void updateIsProtected(UUID reportId, Boolean isProtected);
+
+    void deleteReport(UUID reportId);
 
 }

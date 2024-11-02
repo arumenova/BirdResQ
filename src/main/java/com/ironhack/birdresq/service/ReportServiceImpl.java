@@ -71,7 +71,7 @@ public class ReportServiceImpl implements ReportService {
 
 // The method checks first whether report is present,
 //    if the report is present admin will  be able to update reportStatus
-    // then I needed to convert newStatus from String to enum Status
+    // then I need to convert newStatus from String to enum Status
     @Override
     public void updateReportStatus(UUID reportId, String newStatus,Long id) {
         Optional<Report> report = reportRepository.findById(reportId);
@@ -110,7 +110,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void assignVoluneerToReport(UUID reportId, Long id) {
+    public void assignVolunteerToReport(UUID reportId, Long id) {
         Optional<Report> reportOptional = reportRepository.findById(reportId);
         Optional<Volunteer> volunteerOptional = volunteerRepository.findById(id);
 
@@ -123,7 +123,27 @@ public class ReportServiceImpl implements ReportService {
             throw new EntityNotFoundException("Report or Volunteer not found");
         }
     }
-}
+
+    @Override
+    public void updateIsProtected(UUID reportId, Boolean isProtected) {
+        Report report = reportRepository.findById(reportId)
+                .orElseThrow(() -> new IllegalArgumentException("Report not found with id: " + reportId));
+     report.setIsProtected(isProtected);
+     reportRepository.save(report);
+    }
+
+    @Override
+    public void deleteReport(UUID reportId) {
+        Optional<Report> report = reportRepository.findById(reportId);
+        if (report.isPresent()) {
+            reportRepository.delete(report.get());
+
+        } else {
+            throw new EntityNotFoundException("Report not found");
+        }
+
+    }
+    }
 
 
 

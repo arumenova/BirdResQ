@@ -28,6 +28,12 @@ public class ReportController {
         Report newReport = reportService.createReport(reportDto);
         return newReport.getReportId();
     }
+// Important: this should be allowed only for admin
+    @PostMapping("/{reportId}/assign-volunteer/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void assignVolunteer(@PathVariable UUID reportId, @PathVariable Long id) {
+        reportService.assignVolunteerToReport(reportId,id);
+    }
 
     @PutMapping("/{reportId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -62,4 +68,18 @@ public class ReportController {
             @RequestParam Long id) {
         reportService.volunteerUpdateBirdStatus(reportId, birdStatus,id);
     }
+
+    @PutMapping("{reportId}/is-protected")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateIsProtected(@PathVariable UUID reportId, @RequestParam Boolean isProtected) {
+        reportService.updateIsProtected(reportId,isProtected);
+    }
+
+    @DeleteMapping("{reportId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteReport(@PathVariable UUID reportId) {
+        reportService.deleteReport(reportId);
+    }
+
+
 }
