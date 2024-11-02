@@ -24,7 +24,6 @@ public class PublicReportDto {
     private String injuryDescription;
     private ReportStatus reportStatus;
     private LocalDateTime reportDateTime;
-
     private BirdStatus birdStatus;
     private Boolean isProtected;
 

@@ -33,7 +33,7 @@ public abstract class User {
     private String phoneNumber;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Report> reports = new ArrayList<>();
+    private List<Report> userReports = new ArrayList<>();
 
 
 

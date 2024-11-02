@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -22,8 +24,30 @@ public class VolunteerServiceImpl implements VolunteerService {
         volunteer.setPassword(volunteerDto.getPassword());
         volunteer.setPhoneNumber(volunteerDto.getPhoneNumber());
         volunteer.setUsername(volunteerDto.getUsername());
-        volunteer.setPassword(volunteerDto.getPassword());
-        volunteer.setAvailability(volunteerDto.getIsAvailable());
+        volunteer.setIsAvailable(volunteerDto.getIsAvailable());
         return volunteerRepository.save(volunteer);
     }
+
+
+
+    @Override
+    public Optional<Volunteer> updateVolunteerByEmail(String email, Volunteer updatedVolunteer) {
+        Optional<Volunteer> existingVolunteerOpt = volunteerRepository.findByEmailIgnoreCase(email);
+
+        if (existingVolunteerOpt.isPresent()) {
+            Volunteer existingVolunteer = existingVolunteerOpt.get();
+            existingVolunteer.setName(updatedVolunteer.getName());
+            existingVolunteer.setEmail(updatedVolunteer.getEmail());
+            existingVolunteer.setPhoneNumber(updatedVolunteer.getPhoneNumber());
+            existingVolunteer.setUsername(updatedVolunteer.getUsername());
+            existingVolunteer.setPassword(updatedVolunteer.getPassword());
+            existingVolunteer.setIsAvailable(updatedVolunteer.getIsAvailable());
+            return Optional.of(volunteerRepository.save(existingVolunteer));
+        }
+        return Optional.empty();
+    }
 }
+
+
+
+

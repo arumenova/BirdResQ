@@ -2,6 +2,7 @@ package com.ironhack.birdresq.service;
 
 import com.ironhack.birdresq.dto.PublicReportDto;
 import com.ironhack.birdresq.dto.ReportDto;
+import com.ironhack.birdresq.enums.BirdStatus;
 import com.ironhack.birdresq.enums.ReportStatus;
 import com.ironhack.birdresq.model.Report;
 import com.ironhack.birdresq.repository.ReportRepository;
@@ -87,5 +88,15 @@ public class ReportServiceImpl implements ReportService {
         }
     }
 
-}
+    @Override
+    public void updateBirdStatus(UUID id, String newStatus) {
+        Report report = reportRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Report not found with id: " + id));
+
+        report.setBirdStatus(BirdStatus.valueOf(newStatus));
+        reportRepository.save(report);
+    }
+    }
+
+
 

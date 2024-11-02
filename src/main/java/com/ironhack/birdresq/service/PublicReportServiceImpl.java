@@ -2,8 +2,8 @@ package com.ironhack.birdresq.service;
 
 import com.ironhack.birdresq.dto.PublicReportDto;
 import com.ironhack.birdresq.enums.BirdStatus;
-import com.ironhack.birdresq.model.PublicReport;
-import com.ironhack.birdresq.repository.PublicReportRepository;
+import com.ironhack.birdresq.model.Report;
+import com.ironhack.birdresq.repository.ReportRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,45 +16,46 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PublicReportServiceImpl implements PublicReportService {
 
-    private final PublicReportRepository publicReportRepository;
+    private final ReportRepository reportRepository;
 
     @Override
     public List<PublicReportDto> getAllPublicReports() {
-        return publicReportRepository.findAll().stream()
-                .map(publicReport -> new PublicReportDto(
-                        publicReport.getReport().getId(), // Get the original report's ID
-                        publicReport.getReport().getSpecies(), // Access species from Report
-                        publicReport.getReport().getInjuryDescription(), // Access injury description from Report
-                        publicReport.getReport().getReportStatus(), // Access status from Report
-                        publicReport.getReport().getReportDateTime(), // Access date from Report
-                        publicReport.getBirdStatus(),
-                        publicReport.getIsProtected()
-                )).collect(Collectors.toList());
+        return reportRepository.findAll().stream()
+                .map(this::mapToPublicReportDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public PublicReportDto getPublicReportById(UUID id) {
-        PublicReport publicReport = publicReportRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Public report not found"));
+        Report report = reportRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Report not found"));
 
-        return new PublicReportDto(
-                publicReport.getReport().getId(), // Get the original report's ID
-                publicReport.getReport().getSpecies(), // Access species from Report
-                publicReport.getReport().getInjuryDescription(), // Access injury description from Report
-                publicReport.getReport().getReportStatus(), // Access status from Report
-                publicReport.getReport().getReportDateTime(), // Access date from Report
-                publicReport.getBirdStatus(),
-                publicReport.getIsProtected()
-        );
+        return mapToPublicReportDto(report);
     }
 
     @Override
     public void updateBirdStatusAndProtection(UUID id, BirdStatus birdStatus, Boolean isProtected) {
-        PublicReport publicReport = publicReportRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Public report not found"));
+        Report report = reportRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Report not found"));
 
-        publicReport.setBirdStatus(birdStatus);
-        publicReport.setIsProtected(isProtected);
-        publicReportRepository.save(publicReport); // Save changes to PublicReport
+
+        report.setBirdStatus(birdStatus);
+        report.setIsProtected(isProtected);
+
+        reportRepository.save(report); // Save changes
+    }
+
+    private PublicReportDto mapToPublicReportDto(Report report) {
+        return new PublicReportDto(
+                report.getId(),
+                report.getSpecies(),
+                report.getInjuryDescription(),
+                report.getReportStatus(),
+                report.getReportDateTime(),
+                report.getBirdStatus(),
+                report.getIsProtected()
+        );
     }
 }
+
+

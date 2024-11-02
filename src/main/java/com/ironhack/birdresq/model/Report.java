@@ -1,5 +1,6 @@
 package com.ironhack.birdresq.model;
 
+import com.ironhack.birdresq.enums.BirdStatus;
 import com.ironhack.birdresq.enums.ReportStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -10,10 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
@@ -56,8 +54,11 @@ public class Report {
     private LocalDateTime reportDateTime;
 
 
-    @OneToMany(mappedBy = "report", cascade = CascadeType.ALL)  // Correct mapping to PublicReport
-    private List<PublicReport> publicReports;
+    @Enumerated(EnumType.STRING)
+    private BirdStatus birdStatus;
+
+    private Boolean isProtected;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -67,9 +68,8 @@ public class Report {
     @JoinColumn(name = "admin_id")
     private Admin admin;
 
-//
-//    @ManyToMany(mappedBy = "reports")
-//    private Set<Volunteer> volunteers = new HashSet<>();
+    @ManyToMany(mappedBy = "volunteeredReports")
+    private List<Volunteer> volunteers = new ArrayList<>();
 
 
 }

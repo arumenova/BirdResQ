@@ -16,10 +16,12 @@ public interface ReportService {
 
     Report getReportById(UUID id);
 
-// This method is allowed only for admin
+    // This method is allowed only for admin
     List<Report> getAllReports();
 
 
     void updateReportStatus(UUID id, String newStatus);
+
+    void updateBirdStatus(UUID id, String newStatus);
 
 }
