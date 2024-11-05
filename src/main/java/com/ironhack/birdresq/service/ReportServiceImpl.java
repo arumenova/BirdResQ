@@ -25,6 +25,7 @@ public class ReportServiceImpl implements ReportService {
 
     private final VolunteerRepository volunteerRepository;
 
+    @Transactional
     @Override
     public Report createReport(ReportDto reportDto) {
         Report report = new Report();
@@ -69,11 +70,11 @@ public class ReportServiceImpl implements ReportService {
     }
 
 
-// The method checks first whether report is present,
+    // The method checks first whether report is present,
 //    if the report is present admin will  be able to update reportStatus
     // then I need to convert newStatus from String to enum Status
     @Override
-    public void updateReportStatus(UUID reportId, String newStatus,Long id) {
+    public void updateReportStatus(UUID reportId, String newStatus, Long id) {
         Optional<Report> report = reportRepository.findById(reportId);
 
         if (report.isPresent()) {
@@ -99,7 +100,7 @@ public class ReportServiceImpl implements ReportService {
                 .orElseThrow(() -> new IllegalArgumentException("Report not found with id: " + reportId));
 
         Volunteer volunteer = volunteerRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Volunteer not found with id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Volunteer not found with id: " + reportId));
 
         if (!report.getVolunteers().contains(volunteer)) {
             throw new IllegalArgumentException("Volunteer is not associated with this report.");
@@ -128,8 +129,8 @@ public class ReportServiceImpl implements ReportService {
     public void updateIsProtected(UUID reportId, Boolean isProtected) {
         Report report = reportRepository.findById(reportId)
                 .orElseThrow(() -> new IllegalArgumentException("Report not found with id: " + reportId));
-     report.setIsProtected(isProtected);
-     reportRepository.save(report);
+        report.setIsProtected(isProtected);
+        reportRepository.save(report);
     }
 
     @Override
@@ -143,7 +144,7 @@ public class ReportServiceImpl implements ReportService {
         }
 
     }
-    }
+}
 
 
 

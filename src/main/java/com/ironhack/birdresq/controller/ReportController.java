@@ -60,6 +60,7 @@ public class ReportController {
     public void updateReportStatus(@PathVariable UUID reportId, @RequestParam String reportStatus, @RequestParam Long id) {
         reportService.updateReportStatus(reportId, reportStatus, id);
     }
+
     @PutMapping("{reportId}/bird-status")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateBirdStatus(

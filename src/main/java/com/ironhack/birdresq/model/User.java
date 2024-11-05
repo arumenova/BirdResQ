@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,9 +35,12 @@ public abstract class User {
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Report> userReports = new ArrayList<>();
-
-
+    // Method to get authorities
     public abstract Collection<? extends GrantedAuthority> getAuthorities();
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Report> userReports = new ArrayList<>();
+
+
+//    public abstract Collection<? extends GrantedAuthority> getAuthorities();
 }

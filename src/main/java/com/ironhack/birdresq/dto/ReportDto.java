@@ -2,6 +2,7 @@ package com.ironhack.birdresq.dto;
 
 import java.util.UUID;
 
+import com.ironhack.birdresq.enums.BirdStatus;
 import com.ironhack.birdresq.enums.ReportStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -45,5 +46,9 @@ public class ReportDto {
 
     @NotBlank(message = "Address is required")
     private String address;
+
+    private BirdStatus birdStatus;
+
+    private Boolean isProtected;
 
 }

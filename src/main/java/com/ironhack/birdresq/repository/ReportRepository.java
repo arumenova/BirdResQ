@@ -14,7 +14,7 @@ import java.util.UUID;
 @Repository
 public interface ReportRepository extends JpaRepository<Report, UUID> {
 
-    Optional<Report> findById(UUID id);
+    Optional<Report> findById(UUID reportId);
 
     List<Report> findAll();
 

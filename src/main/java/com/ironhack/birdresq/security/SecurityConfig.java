@@ -35,14 +35,13 @@ public class SecurityConfig {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)));
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
 
-        // Use the new API for CSRF and session management
         http
                 .securityContext((securityContext) -> securityContext.requireExplicitSave(false))
                 .csrf((csrf) -> csrf.disable())
                 .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/login/**").permitAll()
-                        .requestMatchers("/api/reports/public/**").permitAll()
+                        .requestMatchers(POST, "/api/report/reports").permitAll() // Allow public access to create a report
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/volunteer/**").hasRole("VOLUNTEER")
                         .requestMatchers(GET, "/api/reports/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_VOLUNTEER")

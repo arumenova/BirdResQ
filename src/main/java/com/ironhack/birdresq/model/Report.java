@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -53,11 +54,11 @@ public class Report {
 
     private LocalDateTime reportDateTime;
 
-
     @Enumerated(EnumType.STRING)
     private BirdStatus birdStatus;
 
     private Boolean isProtected;
+
 
 
     @ManyToOne
@@ -70,6 +71,7 @@ public class Report {
 
     @ManyToMany(mappedBy = "volunteeredReports")
     private List<Volunteer> volunteers = new ArrayList<>();
+
 
 
 }
