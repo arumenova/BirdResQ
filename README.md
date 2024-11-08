@@ -51,7 +51,50 @@ Follow the steps below to set up and run the project on your local machine:
 
 
 ## Controllers and Routes
-(Include your controller and route information here)
+
+
+1. AdminController
+   Base Route: /api/admin
+
+Description: Handles Admin account management, including creation and updates.
+
+POST /create-account: Creates a new Admin account. Requires an AdminDto object in the request body. This endpoint is publicly accessible.
+PUT /{email}: Updates an Admin account based on their email address. Requires an Admin object in the request body. Accessible only by admins.
+
+2. BirdStatusInfoController
+   Base Route: /api/bird-status-info
+
+Description: Manages bird status updates, including the protection status of birds in reports.
+
+PUT /{reportId}/bird-status: Updates the status of a bird associated with a specific report ID. Accepts birdStatus and volunteerId as request parameters. Accessible only by volunteers.
+PUT /{reportId}/is-protected: Updates the protection status of a bird in a report. Requires isProtected as a request parameter. Accessible only by admins.
+
+3. ReportController
+   Base Route: /api/report
+
+Description: Manages bird rescue reports, including creation, assignment of volunteers, status updates, and deletion.
+
+POST /reports: Creates a new report. Accepts a ReportDto object in the request body. This endpoint is publicly accessible.
+POST /{reportId}/assign-volunteer/{id}: Assigns a volunteer to a report based on report ID and volunteer ID. Accessible only by admins.
+PUT /{reportId}/update: Updates the details of an existing report. Accepts a ReportDto object in the request body and is accessible by both volunteers and admins.
+GET /{reportId}: Retrieves a report by its ID. Accessible by volunteers and admins.
+GET /admin: Retrieves a list of all reports. Accessible only by admins.
+PUT /{reportId}/status: Updates the status of a report. Accepts reportStatus and id as request parameters. Accessible only by admins.
+DELETE /{reportId}: Deletes a report by its ID. Accessible only by admins
+
+4. UserController
+   Base Route: /api/user
+Description: Handles User account management, allowing users to create an account.
+
+POST /create: Creates a new user account. Accepts a User object in the request body. This endpoint is publicly accessible.
+
+5. VolunteerController
+   Base Route: /api/volunteer
+
+Description: Manages Volunteer accounts, including account creation and updates.
+
+POST /create-account: Creates a new Volunteer account. Requires a VolunteerDto object in the request body. This endpoint is publicly accessible.
+PUT /{email}: Updates a Volunteer account based on their email. Requires a Volunteer object in the request body and is accessible only by volunteers.
 
 ## Extra Links
 
@@ -60,12 +103,12 @@ Follow the steps below to set up and run the project on your local machine:
 ## Future Work
 - Add a Bird Tracking Feature.
 - Implement Notifications.
-- Build a Mobile App.
+- Apply Donation System.
 
 ## Resources
 - [Spring Boot Documentation](https://spring.io/projects/spring-boot)
 - [Spring Security Documentation](https://spring.io/projects/spring-security)
 
 ## Team Members
-- **Adriana Yordanova** – Backend Developer
+- **Adriana Yordanova** 
 
