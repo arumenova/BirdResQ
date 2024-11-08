@@ -2,7 +2,6 @@ package com.ironhack.birdresq.service;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
@@ -11,6 +10,7 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
+    // Constructor
     public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
         this.password = password;
@@ -34,21 +34,21 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return true;  // Customize based on your requirements
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return true;  // Customize based on your requirements
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return true;  // Customize based on your requirements
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return true;  // Customize based on your requirements
     }
 }

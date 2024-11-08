@@ -1,7 +1,6 @@
 package com.ironhack.birdresq.service;
 
 import com.ironhack.birdresq.dto.ReportDto;
-import com.ironhack.birdresq.enums.BirdStatus;
 import com.ironhack.birdresq.enums.ReportStatus;
 import com.ironhack.birdresq.model.Report;
 import com.ironhack.birdresq.model.Volunteer;
@@ -92,23 +91,7 @@ public class ReportServiceImpl implements ReportService {
         }
     }
 
-    @Override
-    @Transactional
-    public void volunteerUpdateBirdStatus(UUID reportId, BirdStatus newStatus, Long id) {
 
-        Report report = reportRepository.findById(reportId)
-                .orElseThrow(() -> new IllegalArgumentException("Report not found with id: " + reportId));
-
-        Volunteer volunteer = volunteerRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Volunteer not found with id: " + reportId));
-
-        if (!report.getVolunteers().contains(volunteer)) {
-            throw new IllegalArgumentException("Volunteer is not associated with this report.");
-        }
-
-        report.setBirdStatus(newStatus);
-        reportRepository.save(report);
-    }
 
     @Override
     public void assignVolunteerToReport(UUID reportId, Long id) {
@@ -125,13 +108,6 @@ public class ReportServiceImpl implements ReportService {
         }
     }
 
-    @Override
-    public void updateIsProtected(UUID reportId, Boolean isProtected) {
-        Report report = reportRepository.findById(reportId)
-                .orElseThrow(() -> new IllegalArgumentException("Report not found with id: " + reportId));
-        report.setIsProtected(isProtected);
-        reportRepository.save(report);
-    }
 
     @Override
     public void deleteReport(UUID reportId) {

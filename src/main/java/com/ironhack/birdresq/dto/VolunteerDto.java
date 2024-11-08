@@ -31,4 +31,7 @@ public class VolunteerDto {
     private String password;
 
     private Boolean isAvailable;
+
+    @NotBlank
+    private String role;
 }

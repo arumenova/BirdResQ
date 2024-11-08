@@ -7,12 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.GrantedAuthority;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 
 @Entity
 @Data
@@ -35,12 +31,27 @@ public abstract class User {
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
 
-    // Method to get authorities
+    private String username;
+    private String password;
+
+    // Constructor for User class with username and password (for Spring Security usage)
+    public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+        this.username = username;
+        this.password = password;
+    }
+
+    // Abstract method for authorities
     public abstract Collection<? extends GrantedAuthority> getAuthorities();
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Report> userReports = new ArrayList<>();
+    public abstract boolean isAccountNonExpired();
+
+    public abstract boolean isAccountNonLocked();
+
+    public abstract boolean isCredentialsNonExpired();
+
+    public abstract boolean isEnabled();
+
+    public abstract Collection<String> getRole();
 
 
-//    public abstract Collection<? extends GrantedAuthority> getAuthorities();
 }

@@ -21,11 +21,9 @@ public interface ReportService {
     void updateReportStatus(UUID reportId, String newStatus,Long id);
 
 
-    void volunteerUpdateBirdStatus(UUID reportId, BirdStatus newStatus, Long id);
+
 
     void assignVolunteerToReport(UUID reportId, Long id);
-
-    void updateIsProtected(UUID reportId, Boolean isProtected);
 
     void deleteReport(UUID reportId);
 

@@ -1,6 +1,6 @@
 package com.ironhack.birdresq.model;
 
-import com.ironhack.birdresq.enums.BirdStatus;
+
 import com.ironhack.birdresq.enums.ReportStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
+
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -54,12 +54,6 @@ public class Report {
 
     private LocalDateTime reportDateTime;
 
-    @Enumerated(EnumType.STRING)
-    private BirdStatus birdStatus;
-
-    private Boolean isProtected;
-
-
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -73,5 +67,7 @@ public class Report {
     private List<Volunteer> volunteers = new ArrayList<>();
 
 
+    @OneToOne(mappedBy = "report", cascade = CascadeType.ALL)
+    private BirdStatusInfo birdStatusInfo;
 
 }

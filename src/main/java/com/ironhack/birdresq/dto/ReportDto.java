@@ -47,8 +47,6 @@ public class ReportDto {
     @NotBlank(message = "Address is required")
     private String address;
 
-    private BirdStatus birdStatus;
 
-    private Boolean isProtected;
 
 }

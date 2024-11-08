@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import  com.ironhack.birdresq.enums.Role;
 
 
 import java.util.*;
@@ -15,7 +16,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Volunteer extends User { // Ensure User is your own class implementing UserDetails or similar
+public class Volunteer extends User {
 
     @NotBlank(message = "Username is required")
     private String username;
@@ -24,6 +25,9 @@ public class Volunteer extends User { // Ensure User is your own class implement
     private String password;
 
     private Boolean isAvailable;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @ManyToOne
     @JoinColumn(name = "admin_id")
@@ -40,6 +44,32 @@ public class Volunteer extends User { // Ensure User is your own class implement
     // Method to get authorities
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_VOLUNTEER"));
+        return Collections.singletonList(new SimpleGrantedAuthority("VOLUNTEER"));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
+    @Override
+    public Collection<String> getRole() {
+        // Define the role for a Volunteer
+        return List.of("VOLUNTEER");
     }
 }

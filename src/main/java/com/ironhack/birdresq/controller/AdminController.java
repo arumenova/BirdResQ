@@ -25,6 +25,8 @@ public class AdminController {
         Admin createdAdmin = adminService.createAdminAccount(adminDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAdmin);
     }
+
+
     @PutMapping("/{email}")
     public ResponseEntity<String> updateAdmin(@Valid @PathVariable String email, @RequestBody Admin updatedAdmin) {
         Optional<Admin> updatedAdminOpt = adminService.updateAdminAccountByEmail(email, updatedAdmin);

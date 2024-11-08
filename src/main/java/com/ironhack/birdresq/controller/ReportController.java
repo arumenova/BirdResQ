@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,16 +29,18 @@ public class ReportController {
         Report newReport = reportService.createReport(reportDto);
         return newReport.getReportId();
     }
-// Important: this should be allowed only for admin
+
+    // Important: this should be allowed only for admin
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/{reportId}/assign-volunteer/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void assignVolunteer(@PathVariable UUID reportId, @PathVariable Long id) {
-        reportService.assignVolunteerToReport(reportId,id);
+        reportService.assignVolunteerToReport(reportId, id);
     }
 
     @PutMapping("/{reportId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateReport (@PathVariable UUID reportId, @RequestBody ReportDto reportDto) {
+    public void updateReport(@PathVariable UUID reportId, @RequestBody ReportDto reportDto) {
         reportDto.setReportId(reportId);
         reportService.updateReport(reportDto);
     }
@@ -61,20 +64,6 @@ public class ReportController {
         reportService.updateReportStatus(reportId, reportStatus, id);
     }
 
-    @PutMapping("{reportId}/bird-status")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateBirdStatus(
-            @PathVariable UUID reportId,
-            @RequestParam BirdStatus birdStatus,
-            @RequestParam Long id) {
-        reportService.volunteerUpdateBirdStatus(reportId, birdStatus,id);
-    }
-
-    @PutMapping("{reportId}/is-protected")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateIsProtected(@PathVariable UUID reportId, @RequestParam Boolean isProtected) {
-        reportService.updateIsProtected(reportId,isProtected);
-    }
 
     @DeleteMapping("{reportId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
