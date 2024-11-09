@@ -49,22 +49,23 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))  // Stateless session management
                 .authorizeHttpRequests(authorize -> authorize
                         // Permit access to public endpoints
-                        .requestMatchers(POST, "/api/report/reports").permitAll()
-                        .requestMatchers(POST, "/api/admin/create-account").permitAll()
-                        .requestMatchers(POST, "/api/login").permitAll()
-                        .requestMatchers(PUT, "/api/report/{reportId}/update").permitAll()
-
-                        // Role-based access control
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/volunteer/**").hasRole("VOLUNTEER")
-                        .requestMatchers(GET, "/api/reports/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_VOLUNTEER")
-                        .requestMatchers(POST, "/api/reports/**").hasRole("ADMIN")
-                        .requestMatchers(PUT, "/api/reports/{id}/bird-status").hasRole("VOLUNTEER")
-                        .requestMatchers(PUT, "/api/reports/{id}/is-protected").hasRole("ADMIN")
-                        .requestMatchers(POST, "/api/reports/{reportId}/assign-volunteer/{id}").hasRole("ADMIN")
+//                        .requestMatchers(POST, "/api/report/reports").permitAll()
+//                        .requestMatchers(POST, "/api/admin/create-account").permitAll()
+//                        .requestMatchers(POST, "/api/login").permitAll()
+//                        .requestMatchers(PUT, "/api/report/{reportId}/update").permitAll()
+//
+//                        // Role-based access control
+//                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+//                        .requestMatchers("/api/volunteer/**").hasRole("VOLUNTEER")
+//                        .requestMatchers(GET, "/api/reports/**").hasAnyAuthority("ADMIN", "VOLUNTEER")
+//                        .requestMatchers(POST, "/api/reports/**").hasRole("ADMIN")
+//                        .requestMatchers(PUT, "/api/reports/{id}/bird-status").hasRole("VOLUNTEER")
+//                        .requestMatchers(PUT, "/api/reports/{id}/is-protected").hasRole("ADMIN")
+//                        .requestMatchers(POST, "/api/reports/{reportId}/assign-volunteer/{id}").hasRole("ADMIN")
 
                         // Require authentication for all other requests
-                        .anyRequest().authenticated()
+                        //.anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 );
 
         // Add the authentication filter after setting up the authorization configuration

@@ -1,6 +1,7 @@
 package com.ironhack.birdresq.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.birdresq.enums.ReportStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -57,13 +58,16 @@ public class Report {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "admin_id")
+    @JsonIgnore
     private Admin admin;
 
     @ManyToMany(mappedBy = "volunteeredReports")
+    @JsonIgnore
     private List<Volunteer> volunteers = new ArrayList<>();
 
 

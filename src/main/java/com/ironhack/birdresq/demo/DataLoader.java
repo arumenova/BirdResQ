@@ -1,35 +1,41 @@
-//package com.ironhack.birdresq.demo;
-//
-//import com.ironhack.birdresq.dto.AdminDto;
-//import com.ironhack.birdresq.dto.VolunteerDto;
-//import com.ironhack.birdresq.model.Admin;
-//import com.ironhack.birdresq.model.Role;
-//import com.ironhack.birdresq.model.Volunteer;
-//import com.ironhack.birdresq.service.AdminService;
-//import com.ironhack.birdresq.service.VolunteerService;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.boot.CommandLineRunner;
-//import org.springframework.stereotype.Component;
-//
-//@Component
-//@RequiredArgsConstructor
-//public class DataLoader implements CommandLineRunner {
-//
-//    private final VolunteerService volunteerService;
-//    private final AdminService adminService;
-//
-//    @Override
-//    public void run(String... args) throws Exception {
-//        // Create Admin Accounts
-//        AdminDto adminDto = new AdminDto();
-//        adminDto.setName("Adriana Yordanova");
-//        adminDto.setEmail("admin@example.com");
-//        adminDto.setPhoneNumber("123456789");
-//        adminDto.setUsername("arg456");
-//        adminDto.setPassword("45155?");
-//        adminDto.setRole("ADMIN");
-//        adminService.createAdminAccount(adminDto);
-//
+package com.ironhack.birdresq.demo;
+
+import com.ironhack.birdresq.dto.AdminDto;
+import com.ironhack.birdresq.dto.VolunteerDto;
+import com.ironhack.birdresq.model.Admin;
+import com.ironhack.birdresq.model.Role;
+import com.ironhack.birdresq.model.Volunteer;
+import com.ironhack.birdresq.service.AdminService;
+import com.ironhack.birdresq.service.ReportService;
+import com.ironhack.birdresq.service.UserService;
+import com.ironhack.birdresq.service.VolunteerService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+public class DataLoader implements CommandLineRunner {
+
+    private final VolunteerService volunteerService;
+    private final AdminService adminService;
+
+    private UserService userService;
+
+
+
+    @Override
+    public void run(String... args) throws Exception {
+        // Create Admin Accounts
+        AdminDto adminDto = new AdminDto();
+        adminDto.setName("Adriana Yordanova");
+        adminDto.setEmail("admin@example.com");
+        adminDto.setPhoneNumber("123456789");
+        adminDto.setUsername("arg456");
+        adminDto.setPassword("45155?");
+        adminDto.setRole("ADMIN");
+        adminService.createAdminAccount(adminDto);
+
 //        // Create Volunteer Accounts with roles
 //        VolunteerDto volunteerDto1 = new VolunteerDto();
 //        volunteerDto1.setName("John Doe");
@@ -51,5 +57,5 @@
 //
 //        volunteerService.createVolunteerAccount(volunteerDto1);
 //        volunteerService.createVolunteerAccount(volunteerDto2);
-//    }
-//}
+    }
+}
