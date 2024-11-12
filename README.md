@@ -6,6 +6,10 @@ BirdResQ is an animal rescue application that helps volunteers, admins, and user
 ## Class Diagram
 ![UML Class Diagram](images/Untitled%20Diagram.drawio.png)
 
+
+## DEMO
+![DEMO]([images/Untitled%20Diagram.drawio.png](https://www.loom.com/share/af110d0b03054726aa24c0dae9bf2cf6))
+
 ## Setup
 Follow the steps below to set up and run the project on your local machine:
 
